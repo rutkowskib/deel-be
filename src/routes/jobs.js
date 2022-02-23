@@ -4,7 +4,7 @@ const { getProfile } = require('../middleware/getProfile');
 const { Job } = require('../models/job');
 const { Contract } = require('../models/contract');
 const { Profile } = require('../models/profile');
-const { Op } = require('sequelize');
+const { Op, Transaction } = require('sequelize');
 const validator = require('express-joi-validation').createValidator({});
 const Joi = require('joi');
 const { sequelize } = require('../db');
@@ -35,7 +35,7 @@ router.get('/unpaid', async (req, res) => {
 router.post('/:id/pay', validator.params(Joi.object({ id: Joi.number() })), async (req, res) => {
   const { id } = req.params;
   try {
-    await sequelize.transaction(async (transaction) => {
+    await sequelize.transaction({ isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE }, async (transaction) => {
       const job = await Job.findOne({
         where: {
           id,
