@@ -9,6 +9,18 @@ const { Contract } = require('../models/contract');
 const { UserDoesNotExistError, ToBigDepositError } = require('../errors');
 const { Transaction } = require('sequelize');
 
+/**
+ * @openapi
+ * /balances/deposit/:userId:
+ *   post:
+ *     description: Deposits money into the the the balance of a client, a client can't deposit more than 25% his total of jobs to pay. (at the deposit moment)
+ *     parameters:
+ *       - in: params
+ *         name: userId
+ *     responses:
+ *       200:
+ *         description: Deposit successful
+ */
 router.post('/deposit/:userId', validator.params(Joi.object({ userId: Joi.number().required() })), validator.body(Joi.object({ money: Joi.number().required() })), async (req, res) => {
   try {
     await sequelize.transaction({ isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE }, async (transaction) => {

@@ -12,6 +12,24 @@ const { NotEnoughMoneyError, AlreadyPaidError, DoesntExistError } = require('../
 
 router.use(getProfile);
 
+/**
+ * @openapi
+ * /jobs/unpaid:
+ *   get:
+ *     description: GET /jobs/unpaid - Get all unpaid jobs for a user (either a client or contractor), for active contracts only.
+ *     responses:
+ *       200:
+ *         description: Unpaid jobs
+ *         content:
+ *            application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 count:
+ *                   type: number
+ *                 jobs:
+ *                   type: Jobs
+ */
 router.get('/unpaid', async (req, res) => {
   const { id: userId } = req.profile;
   const { count, rows: jobs } = await Job.findAndCountAll({
@@ -32,6 +50,18 @@ router.get('/unpaid', async (req, res) => {
   res.json({ jobs, count });
 });
 
+/**
+ * @openapi
+ * /jobs/:job_id/pay:
+ *   post:
+ *     description: Pay for a job, a client can only pay if his balance >= the amount to pay. The amount should be moved from the client's balance to the contractor balance.
+ *     parameters:
+ *       - in: params
+ *         name: job_id
+ *     responses:
+ *       200:
+ *         description: Payment successful
+ */
 router.post('/:id/pay', validator.params(Joi.object({ id: Joi.number() })), async (req, res) => {
   const { id } = req.params;
   try {
