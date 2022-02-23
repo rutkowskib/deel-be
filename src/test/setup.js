@@ -4,7 +4,7 @@ beforeEach(async () => {
   for(const [_, model] of Object.entries(sequelize.models)) {
     await model.truncate();
   }
-  const { Profile, Job, Contract } = sequelize.models;
+  const { Profile } = sequelize.models;
   await Promise.all([
     Profile.create({
       id: 1,

@@ -1,7 +1,6 @@
 const app = require('../../app');
 const request = require('supertest');
 const faker = require('faker');
-const { Contract } = require('../../models/contract');
 const { createContract } = require('../../test/helpers');
 
 describe('GET /contracts/id', () => {
@@ -80,6 +79,6 @@ describe('GET /contracts', () => {
       .expect(({ body }) => {
         expect(body.count).toEqual(2);
         expect(body.contracts).toHaveLength(2);
-      })
+      });
   });
 });

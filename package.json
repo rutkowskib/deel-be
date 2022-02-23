@@ -14,7 +14,7 @@
     "lint": "eslint ./src/app.js",
     "start": "nodemon ./src/server.js",
     "seed": "node ./scripts/seedDb.js",
-    "test": "jest --watchAll --no-cache"
+    "test": "jest --watchAll --no-cache --runInBand"
   },
   "devDependencies": {
     "concurrently": "4.1.0",
