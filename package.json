@@ -30,7 +30,7 @@
   "engineStrict": true,
   "jest": {
     "setupFilesAfterEnv": [
-      "./src/test-setup.js"
+      "./src/test/setup.js"
     ]
   }
 }

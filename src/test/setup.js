@@ -1,4 +1,4 @@
-const { sequelize } = require('./db');
+const { sequelize } = require('../db');
 
 beforeEach(async () => {
   for(const [_, model] of Object.entries(sequelize.models)) {
