@@ -41,6 +41,41 @@ router.get('/best-profession/', validator.query(Joi.object({ 'start-date': Joi.d
   });
 });
 
+router.get('/best-clients/', validator.query(Joi.object({
+  start: Joi.date().format('YYYY-MM-DD').required(),
+  end: Joi.date().format('YYYY-MM-DD').required(),
+  limit: Joi.number().integer().positive().default(2)
+})), async (req, res) => {
+  const biggestPayersQuery = `
+    (SELECT "ClientId", SUM("price") AS "paid"
+    FROM "Jobs"
+    LEFT JOIN "Contracts"
+    ON "Contracts"."id" = "Jobs"."ContractId"
+    WHERE "Jobs"."paid" = true
+    AND date("Jobs"."paymentDate") BETWEEN date(:start) AND date(:end)
+    GROUP BY "ClientId"
+    ORDER BY "paid" DESC
+    LIMIT :limit
+    ) AS "PaidByClients"
+  `;
+  const clientsProfilesQuery = `
+    SELECT "paid", "id", "firstName" || ' ' || "lastName" AS "fullName"
+    FROM ${biggestPayersQuery}
+    LEFT JOIN "Profiles"
+    ON "PaidByClients"."ClientId" = "Profiles"."id"
+  `;
+  const queryResult = await sequelize.query(clientsProfilesQuery, {
+    replacements: {
+      start: req.originalQuery['start'],
+      end: req.originalQuery['end'],
+      limit: req.query.limit,
+    },
+    type: QueryTypes.SELECT,
+  });
+  res.json({
+    clients: queryResult,
+  });
+});
 
 module.exports = {
   router,
