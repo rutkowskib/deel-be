@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {getProfile} = require('../middleware/getProfile');
+const { getProfile } = require('../middleware/getProfile');
 const validator = require('express-joi-validation').createValidator({});
 const Joi = require('joi');
 const { Op } = require('sequelize');

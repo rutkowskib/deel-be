@@ -12,11 +12,11 @@ const createContract = ({ ClientId, ContractorId, status = 'new', id = faker.dat
   });
 };
 
-const createJob = ({ paid = false, ContractId }) => {
+const createJob = ({ paid = false, ContractId, price = faker.datatype.number() }) => {
   const paymentDate = paid ? new Date().toISOString() : undefined;
   return Job.create({
     description: faker.lorem.words(),
-    price: faker.datatype.number(),
+    price,
     ContractId,
     paid,
     paymentDate,
