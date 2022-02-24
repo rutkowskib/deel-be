@@ -1,8 +1,13 @@
 # DEEL BACKEND TASK
 
-  
+## Solution
 
-💫 Welcome! 🎉
+Solution has been done according to provided readme.
+Tests can be done running npm test. They are located in src/routes/test path.
+There is also swagger generated. It can be seen at localhost:3001/api 
+
+##
+ Welcome! 🎉
 
 
 This backend exercise involves building a Node.js/Express.js app that will serve a REST API. We imagine you should spend around 3 hours at implement this feature.
