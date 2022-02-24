@@ -3,7 +3,7 @@
 ## Solution
 
 Solution has been done according to provided readme.
-Tests can be done running npm test. They are located in src/routes/test path.
+Tests can be done running npm test. They are located in src/routes/test path. To run them db has to be created first by running npm run seed.
 There is also swagger generated. It can be seen at localhost:3001/api 
 
 ##
